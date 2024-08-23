@@ -72,10 +72,7 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             agent {
-               docker { 
-                  image 'docker:20.10.8-dind'
-                  args '-v /var/run/docker.sock:/var/run/docker.sock'
-               }
+                docker { image 'node:20-alpine' }
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
@@ -83,6 +80,8 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        apk --no-cache add curl
+                        npm install -g 
                         echo $HEROKU_API_KEY | heroku auth:token
                         heroku container:login
                         heroku create $STAGING || echo "Project already exists"
@@ -97,10 +96,7 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             agent {
-               docker { 
-                  image 'docker:20.10.8-dind'
-                  args '-v /var/run/docker.sock:/var/run/docker.sock'
-               }
+                docker { image 'node:20-alpine' }
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
@@ -108,6 +104,8 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        apk --no-cache add curl
+                        npm install -g 
                         echo $HEROKU_API_KEY | heroku auth:token
                         heroku container:login
                         heroku create $PRODUCTION || echo "Project already exists"
