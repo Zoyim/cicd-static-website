@@ -72,7 +72,10 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             agent {
-                docker { image 'node:20-alpine' }
+               docker { 
+                  image 'docker:20.10.8-dind'
+                  args '-v /var/run/docker.sock:/var/run/docker.sock'
+               }
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
@@ -94,7 +97,10 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             agent {
-                docker { image 'node:20-alpine' }
+               docker { 
+                  image 'docker:20.10.8-dind'
+                  args '-v /var/run/docker.sock:/var/run/docker.sock'
+               }
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
