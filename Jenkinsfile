@@ -22,12 +22,12 @@ pipeline {
               }
            }
        }
-       stage('Run container based on builded image') {
+       stage('Run container based on built image') {
           agent any
           steps {
             script {
               sh '''
-                  echo "Cleaning existing container if exist"
+                  echo "Cleaning existing container if exists"
                   docker ps -a | grep -i $IMAGE_NAME && docker rm -f $IMAGE_NAME
                   docker run --name $IMAGE_NAME -d -p $APP_EXPOSED_PORT:$APP_CONTAINER_PORT -e PORT=$APP_CONTAINER_PORT ${DOCKERHUB_ID}/$IMAGE_NAME:$IMAGE_TAG
                   sleep 5
@@ -56,8 +56,7 @@ pipeline {
              }
           }
       }
-
-      stage ('Login and Push Image on docker hub') {
+      stage('Login and Push Image to Docker Hub') {
           agent any
           steps {
              script {
@@ -68,14 +67,13 @@ pipeline {
              }
           }
       }
-
-      stage('Push image in staging and deploy it') {
+      stage('Push image to staging and deploy') {
         when {
-            expression { GIT_BRANCH == 'origin/main' }
+            expression { env.BRANCH_NAME == 'main' }
         }
-      agent {
+        agent {
             docker { image 'franela/dind' }
-      } 
+        }
         environment {
             HEROKU_API_KEY = credentials('heroku_api_key')
         }
@@ -85,20 +83,20 @@ pipeline {
                 apk --no-cache add npm
                 npm install -g heroku
                 heroku container:login
-                heroku create $STAGING || echo "projets already exist"
+                heroku create $STAGING || echo "Project already exists"
                 heroku container:push -a $STAGING web
                 heroku container:release -a $STAGING web
              '''
            }
         }
      }
-     stage('Push image in production and deploy it') {
+     stage('Push image to production and deploy') {
        when {
-           expression { GIT_BRANCH == 'origin/main' }
+           expression { env.BRANCH_NAME == 'main' }
        }
-      agent {
-               docker { image 'franela/dind' }
-      }
+       agent {
+           docker { image 'franela/dind' }
+       }
        environment {
            HEROKU_API_KEY = credentials('heroku_api_key')
        }
@@ -108,7 +106,7 @@ pipeline {
                apk --no-cache add npm
                npm install -g heroku
                heroku container:login
-               heroku create $PRODUCTION || echo "projets already exist"
+               heroku create $PRODUCTION || echo "Project already exists"
                heroku container:push -a $PRODUCTION web
                heroku container:release -a $PRODUCTION web
             '''
