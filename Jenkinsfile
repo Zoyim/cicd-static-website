@@ -80,8 +80,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        apk --no-cache add curl
-                        npm install -g heroku
+                        echo $HEROKU_API_KEY | heroku auth:token
                         heroku container:login
                         heroku create $STAGING || echo "Project already exists"
                         heroku container:push -a $STAGING web
@@ -103,8 +102,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        apk --no-cache add curl
-                        npm install -g heroku
+                        echo $HEROKU_API_KEY | heroku auth:token
                         heroku container:login
                         heroku create $PRODUCTION || echo "Project already exists"
                         heroku container:push -a $PRODUCTION web
