@@ -7,8 +7,8 @@ pipeline {
         APP_CONTAINER_PORT = "5000"
         APP_EXPOSED_PORT = "80"
         IMAGE_TAG = "latest"
-        STAGING = "chocoapp-jenkins-staging"
-        PRODUCTION = "chocoapp-jenkins-prod"
+        STAGING = "chocoapp-staging"
+        PRODUCTION = "chocoapp-prod"
         DOCKERHUB_ID = "choco1992"
         DOCKERHUB_PASSWORD = credentials('dockerhub_password')
     }
@@ -40,7 +40,7 @@ pipeline {
            steps {
               script {
                 sh '''
-                   curl 172.28.128.123 | grep -i "Dimension"
+                   curl 172.17.0.1 | grep -i "Dimension"
                 '''
               }
            }
