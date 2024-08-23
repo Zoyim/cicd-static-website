@@ -72,7 +72,10 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             agent {
-                docker { image 'docker:dind' }
+                docker { 
+                  image 'docker:dind'
+                  args '--entrypoint=""'
+               }
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
@@ -95,7 +98,10 @@ pipeline {
                 expression { env.BRANCH_NAME == 'main' }
             }
             agent {
-                docker { image 'docker:dind' }
+               docker { 
+                  image 'docker:dind'
+                  args '--entrypoint=""'
+               }
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
