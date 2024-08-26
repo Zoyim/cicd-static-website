@@ -95,9 +95,6 @@ pipeline {
             //     expression { env.BRANCH_NAME == 'main' }
             // }
             agent {
-                docker { image 'franela/dind' }
-            }
-            agent {
                 docker { image 'node:16-alpine' }  // Utiliser Node.js 16 compatible avec Heroku CLI
             }
             steps {
