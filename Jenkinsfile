@@ -72,7 +72,7 @@ pipeline {
             //     expression { env.BRANCH_NAME == 'main' }
             // }
             agent {
-                docker { image 'node:16-alpine' }  // Utiliser Node.js 16 compatible avec Heroku CLI
+                docker { image 'docker:latest' }  // Utiliser Node.js 16 compatible avec Heroku CLI
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
@@ -80,9 +80,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        apk --no-cache add npm docker
-                        rc-update add docker boot
-                        rc-service docker start
+                        apk --no-cache add npm
                         npm install -g heroku
                         heroku container:login
                         heroku create $STAGING || echo "Project already exists"
@@ -97,14 +95,12 @@ pipeline {
             //     expression { env.BRANCH_NAME == 'main' }
             // }
             agent {
-                docker { image 'node:16-alpine' }  // Utiliser Node.js 16 compatible avec Heroku CLI
+                docker { image 'docker:latest' }  // Utiliser Node.js 16 compatible avec Heroku CLI
             }
             steps {
                 script {
                     sh '''
-                        apk --no-cache add npm docker
-                        rc-update add docker boot
-                        rc-service docker start
+                        apk --no-cache add npm
                         npm install -g heroku
                         heroku container:login
                         heroku create $PRODUCTION || echo "Project already exists"
