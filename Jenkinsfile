@@ -80,7 +80,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        apk --no-cache add npm
+                        apk --no-cache add npm docker
+                        service docker start
                         npm install -g heroku
                         heroku container:login
                         heroku create $STAGING || echo "Project already exists"
@@ -100,7 +101,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        apk --no-cache add npm
+                        apk --no-cache add npm docker
+                        service docker start
                         npm install -g heroku
                         heroku container:login
                         heroku create $PRODUCTION || echo "Project already exists"
