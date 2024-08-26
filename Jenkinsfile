@@ -81,7 +81,8 @@ pipeline {
                 script {
                     sh '''
                         apk --no-cache add npm docker
-                        service docker start
+                        rc-update add docker boot
+                        rc-service docker start
                         npm install -g heroku
                         heroku container:login
                         heroku create $STAGING || echo "Project already exists"
@@ -102,7 +103,8 @@ pipeline {
                 script {
                     sh '''
                         apk --no-cache add npm docker
-                        service docker start
+                        rc-update add docker boot
+                        rc-service docker start
                         npm install -g heroku
                         heroku container:login
                         heroku create $PRODUCTION || echo "Project already exists"
