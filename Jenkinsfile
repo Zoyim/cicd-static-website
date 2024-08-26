@@ -68,9 +68,9 @@ pipeline {
             }
         }
         stage('Push image to staging and deploy') {
-            when {
-                expression { env.BRANCH_NAME == 'main' }
-            }
+            // when {
+            //     expression { env.BRANCH_NAME == 'main' }
+            // }
             agent {
                 docker { image 'franela/dind' }
             }
@@ -91,9 +91,9 @@ pipeline {
             }
         }
         stage('Push image to production and deploy') {
-            when {
-                expression { env.BRANCH_NAME == 'main' }
-            }
+            // when {
+            //     expression { env.BRANCH_NAME == 'main' }
+            // }
             agent {
                 docker { image 'franela/dind' }
             }
