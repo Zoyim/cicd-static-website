@@ -72,7 +72,7 @@ pipeline {
             //     expression { env.BRANCH_NAME == 'main' }
             // }
             agent {
-                docker { image 'franela/dind' }
+                docker { image 'node:16-alpine' }  // Utiliser Node.js 16 compatible avec Heroku CLI
             }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
@@ -97,8 +97,8 @@ pipeline {
             agent {
                 docker { image 'franela/dind' }
             }
-            environment {
-                HEROKU_API_KEY = credentials('heroku_api_key')
+            agent {
+                docker { image 'node:16-alpine' }  // Utiliser Node.js 16 compatible avec Heroku CLI
             }
             steps {
                 script {
